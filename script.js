@@ -1,23 +1,28 @@
-let hr = document.getElementById('hour');
-let min = document.getElementById('min');
-let sec = document.getElementById('sec');
+let hourHand = document.getElementById('hour');
+let minuteHand = document.getElementById('min');
+let secondHand = document.getElementById('sec');
 
-function displayTime(){
-    let date = new Date();
+function updateClock() {
+    let now = new Date();
     
-    // Getting hour, mins, secs, from date
-    let hh = date.getHours();
-    let mm = date.getMinutes();
-    let ss = date.getSeconds();
+    // Get the current hour, minute, second
+    let hours = now.getHours() % 12;  // Convert to 12-hour format
+    let minutes = now.getMinutes();
+    let seconds = now.getSeconds();
 
-    let hRotation = 30*hh + mm/2;
-    let mRotation = 6*mm;
-    let sRotation = 6*ss;
+    // Calculating rotations
+    let hourRotation = (hours + minutes / 60) * 30; // 30 degrees per hour
+    let minuteRotation = minutes * 6;  // 6 degrees per minute
+    let secondRotation = seconds * 6;  // 6 degrees per second
 
-    hr.style.transform = `rotate(${hRotation}deg)`;
-    min.style.transform = `rotate(${mRotation}deg)`;
-    sec.style.transform = `rotate(${sRotation}deg)`;
-
+    // Apply rotations
+    hourHand.style.transform = `rotate(${hourRotation}deg)`;
+    minuteHand.style.transform = `rotate(${minuteRotation}deg)`;
+    secondHand.style.transform = `rotate(${secondRotation}deg)`;
 }
 
-setInterval(displayTime, 1000);
+// Call the updateClock function to set the initial time
+updateClock();
+
+// Update time every second
+setInterval(updateClock, 1000);
